@@ -1,1 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowfall Animation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #151522;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10vh;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(110vh);
+                opacity: 0;
+            }
+        }
+        /* Nueva animación para la postal */
+        @keyframes postalAnimation {
+            0% {
+                opacity: 0.4;
+                transform: scale(0.5) rotate(-5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(10deg);
+            }
+        }
+
+        .postal {
+          
+          
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            opacity: 0.6; /* 60% de opacidad */
+            transform: scale(0.9) rotate(0deg);
+            animation: postalAnimation 4s ease forwards; /* Se aplica al cargar la página */
+        }
+        .postal-container{
+          justify-content: center;
+          text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="postal-container" style="position: relative;">
+        <img class="postal" src="tarjeta_coro.jpg" usemap="#mapeo" alt="Tarjeta postal">
+        
+        <!-- Div para visualizar el rectángulo -->
+        <div class="debug-rect" style="
+            position: absolute;
+            left: 220; /* Coordenada X inicial relativa */
+            top: 13%;  /* Coordenada Y inicial relativa */
+            width: 15%; /* Ancho relativo */
+            height: 10%; /* Alto relativo */
+            border: 2px dashed red;
+            pointer-events: none;
+        "></div>
+        
+        <map name="mapeo">
+            <area shape="rect" coords="200,130,370,230" href="https://meet.google.com/vec-gouv-kpf" alt="">
+            <area shape="default" href="https://drive.google.com/file/d/1IDhvK9H7ApR_WottbdcBqMnkXzPpKSRl/view?usp=sharing" alt="">
+        
+        </map>
+    </div>
+    
+  
+    <script>
+        const snowflakeCount = 100; // Number of snowflakes
+        const snowflakeSymbols = ['❄', '❅', '❆']; // Snowflake Unicode symbols
+
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = snowflakeSymbols[Math.floor(Math.random() * snowflakeSymbols.length)];
+
+            // Randomize snowflake size and position
+            const size = Math.random() * 1.5 + 0.5 + 'em';
+            snowflake.style.fontSize = size;
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 5 + 5 + 's';
+
+            // Adjust initial delay to ensure smooth entry
+            const delay = Math.random() * 5;
+            snowflake.style.animationDelay = delay + 's';
+
+            // Place the snowflake slightly above the viewport if it has a delay
+            if (delay > 0) {
+                snowflake.style.top = `calc(-10vh - ${delay * 20}px)`;
+            }
+
+            document.body.appendChild(snowflake);
+
+            // Remove the snowflake once the animation is complete
+            snowflake.addEventListener('animationend', () => {
+                snowflake.remove();
+            });
+        }
+
+        function generateSnowflakes() {
+            for (let i = 0; i < snowflakeCount; i++) {
+                createSnowflake();
+            }
+
+            // Add more snowflakes over time
+            setInterval(createSnowflake, 200);
+        }
+
+        generateSnowflakes();
+    </script>
+    
+</body>
+</html>
 
